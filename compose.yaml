@@ -1,0 +1,30 @@
+services:
+  app:
+    build: .
+    container_name: enterprise_ai_architect
+    ports:
+      - "8501:8501"
+    depends_on:
+      - chromadb
+    env_file:
+      - .env
+    environment:
+      - CHROMA_HOST=chromadb
+      - CHROMA_PORT=8000
+    volumes:
+      - app_data:/app/data
+    command: streamlit run app/frontend/ui.py --server.port=8501 --server.address=0.0.0.0 --browser.gatherUsageStats=false
+    restart: unless-stopped
+
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: netcompany_chromadb
+    ports:
+      - "8000:8000"
+    volumes:
+      - chroma_data:/chroma/chroma
+    restart: unless-stopped
+
+volumes:
+  chroma_data:
+  app_data:
