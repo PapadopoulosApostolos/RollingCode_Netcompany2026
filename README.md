@@ -52,26 +52,26 @@ User Input
     │
     ▼
 ┌─────────────────────┐
-│  Requirement Analyst │  ← Extracts structured requirements from free text + form data
+│  Requirement Analyst│  ← Extracts structured requirements from free text + form data
 └──────────┬──────────┘
            │
            ▼
 ┌─────────────────────┐
-│  Initial Validator   │  ← Checks if input is complete; triggers Clarification Wizard if not
+│  Initial Validator  │  ← Checks if input is complete; triggers Clarification Wizard if not
 └──────────┬──────────┘
            │
      ┌─────┴──────┐
      │            │
   [PASS]        [FAIL]
      │            │
-     │     ┌──────▼──────┐
+     │     ┌──────▼───────┐
      │     │ Clarification│  ← Dynamic form wizard shown to user (stops graph until answered)
      │     │    Wizard    │
-     │     └─────────────┘
-     │
-     ▼
+     │     └──────────────┘
+     │            |
+     ▼            ▼
 ┌─────────────────────┐
-│    Memory (RAG)      │  ← Retrieves relevant context from ChromaDB vector store
+│    Memory (RAG)     │  ← Retrieves relevant context from ChromaDB vector store
 └──────────┬──────────┘
            │
            ▼
@@ -80,12 +80,18 @@ User Input
 │  (GPT-4o-mini + RAG)     │
 └──────────┬───────────────┘
            │
-           ▼
-┌─────────────────────┐
-│   System Designer    │  ← Synthesizes all inputs into the final architecture dossier (GPT-4o)
-└──────────┬──────────┘
            │
-           ▼
+           │
+           │ ┌─────────────────────┐
+           │ │    Design critic    │  ← Critics the designs made by the system designer (GPT-4o)
+           │ └──────┬────────┬─────┘
+           │        │        │
+           ▼        │        │
+ ┌─────────────────────┐←────┘
+ │   System Designer   │  ← Synthesizes all inputs into the final architecture dossier (GPT-4o)
+ └──────────┬──────────┘
+            │
+            ▼
      Final Design
   (Diagrams + Reports)
 ```
@@ -101,6 +107,9 @@ User Input
 **Technical Committee** — Consolidates the perspectives of six domain experts into a single GPT-4o-mini call. Each expert is grounded by RAG-retrieved context from their domain: Security, Database, AI/ML, Deployment, Data Engineering, and Enterprise Architecture.
 
 **System Designer** — The final synthesis step. Uses GPT-4o (full model) with a Pydantic-enforced output schema to generate the complete architecture dossier, including Mermaid diagram code, cost tables, and all analysis sections. Post-processing sanitizes Mermaid syntax to prevent rendering errors.
+
+**Design Critic** — Runs parallel with the System Designer. Critics the designs made until they meet the requirements set by the
+analyst and validator and meet a high enough standard.
 
 ---
 
@@ -163,7 +172,7 @@ docker compose up --build -d
 ```
 ### 5. Launch the App
 
-Through the Docker Desktop app, navigate to the Containers tab to see the newly created containers of the app. There you will see a container called ```app-1``` with a port number of ```8501:8501```. Click the port number.
+Through the Docker Desktop app, navigate to the Containers tab to see the newly created containers of the app. There you will see a container called ```app-1``` with a port number of ```8501:8501```. Click the port number. Alternatively follow the ```localhost``` URL provided by the terminal.
 
 You will then be redirected to the front page of the app.
 
@@ -277,5 +286,5 @@ Built for the **Netcompany Hackathon 2026** by:
 - **Anastasios Papageorgiou**
 - **Apostolos Papadopoulos**
 - **Theodoros Katsanos**
-- **Giannhs Eleftherakos**
+- **Giannis Eleftherakos**
 - **Dimos Katsarelis**
