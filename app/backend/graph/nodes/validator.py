@@ -464,7 +464,7 @@ def initial_validator_node(state: SystemDesignState):
     
     # ── AI: Επέλεξε τα πιο σχετικά templates ──
     llm = ChatOpenAI(
-        model="gpt-4o-mini",
+        model="gpt-4.1",
         temperature=0.0,
         api_key=os.environ.get("OPENAI_API_KEY"),
     ).with_structured_output(TemplateSelection)

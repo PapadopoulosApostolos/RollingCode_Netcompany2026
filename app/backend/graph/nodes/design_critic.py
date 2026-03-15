@@ -184,7 +184,7 @@ def design_critic_node(state: SystemDesignState):
 
     # ── PHASE 2: LLM-powered consistency critique ──
     llm = ChatOpenAI(
-        model="gpt-4o-mini",
+        model="gpt-4.1",
         temperature=0.0,
         api_key=os.environ.get("OPENAI_API_KEY"),
     ).with_structured_output(DesignCritiqueResult)

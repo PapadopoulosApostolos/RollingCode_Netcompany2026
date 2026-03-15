@@ -23,7 +23,7 @@ def requirement_analyst_node(state: SystemDesignState):
     
     # 2. Αρχικοποίηση OpenAI Μοντέλου
     llm = ChatOpenAI(
-        model="gpt-4o-mini", 
+        model="gpt-4.1", 
         temperature=0.1, 
         api_key=os.environ.get("OPENAI_API_KEY")
     )

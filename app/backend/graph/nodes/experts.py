@@ -120,7 +120,7 @@ def retrieve_domain_knowledge(query: str, domain: str) -> str:
 def get_expert_llm():
     """Επιστρέφει το GPT-4o-mini για την Τεχνική Επιτροπή."""
     return ChatOpenAI(
-        model="gpt-4o-mini",
+        model="gpt-4.1",
         temperature=0.0,
         api_key=os.environ.get("OPENAI_API_KEY")
     )

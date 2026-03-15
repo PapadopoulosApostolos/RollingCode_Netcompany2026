@@ -831,7 +831,7 @@ def personal_context_modal():
                             st.markdown(prompt)
                         with st.spinner("Ο Agent επεξεργάζεται..."):
                             try:
-                                llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.6, api_key=os.environ.get("OPENAI_API_KEY"))
+                                llm = ChatOpenAI(model="gpt-4.1", temperature=0.6, api_key=os.environ.get("OPENAI_API_KEY"))
                                 sys_prompt = {
                                     "role": "system",
                                     "content": (
@@ -851,7 +851,7 @@ def personal_context_modal():
                 def extract_conclusions_callback():
                     with st.spinner("Ανάλυση της συζήτησης και εξαγωγή δεδομένων..."):
                         chat_text = "\n".join([f"{msg['role'].upper()}: {msg['content']}" for msg in st.session_state['context_chat_history']])
-                        summary_llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.0, api_key=os.environ.get("OPENAI_API_KEY")).with_structured_output(ExtractedConclusions)
+                        summary_llm = ChatOpenAI(model="gpt-4.1", temperature=0.0, api_key=os.environ.get("OPENAI_API_KEY")).with_structured_output(ExtractedConclusions)
                         summary_prompt = f"""
                         Διάβασε την παρακάτω τεχνική συζήτηση.
                         Εξήγαγε ΜΟΝΟ την ουσία σε μια μικρή λίστα από ανεξάρτητα συμπεράσματα.
@@ -918,7 +918,7 @@ def personal_context_modal():
                     correction = st.session_state.get('correction_input', '')
                     if correction.strip():
                         with st.spinner("Αναδιατύπωση γεγονότος..."):
-                            llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.0, api_key=os.environ.get("OPENAI_API_KEY"))
+                            llm = ChatOpenAI(model="gpt-4.1", temperature=0.0, api_key=os.environ.get("OPENAI_API_KEY"))
                             rewrite_prompt = f"ΑΡΧΙΚΟ ΓΕΓΟΝΟΣ: '{current_conc}'\nΔΙΟΡΘΩΣΗ ΧΡΗΣΤΗ: '{correction}'\nΞαναγράψε το γεγονός ενσωματώνοντας τη διόρθωση. ΚΑΝΟΝΑΣ: Γράψε το ΕΝΤΕΛΩΣ ΑΠΡΟΣΩΠΑ και ΑΥΣΤΗΡΑ ΤΕΧΝΙΚΑ. Δώσε ΜΟΝΟ το νέο κείμενο."
                             new_conc = llm.invoke([{"role": "user", "content": rewrite_prompt}]).content
                             st.session_state['context_conclusions'][idx] = new_conc
@@ -979,7 +979,7 @@ def _get_iteration_response(design_dict, chat_history):
     # 2. Απευθείας κλήση στο OpenAI με αυστηρό timeout (10 δευτερόλεπτα)
     try:
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4.1",
             messages=messages,
             temperature=0.3,
             timeout=10.0  # Αν αργήσει πάνω από 10 sec, θα πετάξει error αμέσως!
@@ -1013,7 +1013,7 @@ def _apply_architecture_patch(current_design, change_summary):
     from app.backend.models.schemas import FinalArchitectureDesign
 
     llm = ChatOpenAI(
-        model="gpt-4o",
+        model="gpt-4.1",
         temperature=0.15,
         api_key=os.environ.get("OPENAI_API_KEY"),
     ).with_structured_output(FinalArchitectureDesign)

@@ -83,7 +83,7 @@ def system_designer_node(state: SystemDesignState) -> Dict[str, Any]:
 
     # ── LLM Setup ─────────────────────────────────────────────────
     llm = ChatOpenAI(
-        model="gpt-4o",
+        model="gpt-4.1",
         temperature=0.15,
         api_key=os.environ.get("OPENAI_API_KEY"),
     )
